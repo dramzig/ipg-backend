@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.exceptions import ValidationError
 from django.contrib.auth.models import User
 from django.core.validators import RegexValidator
 from django.db.models.signals import post_save
@@ -75,14 +76,16 @@ class Catalog(models.Model):
 
 class PurchaseOrder(models.Model):
     user = models.ForeignKey(User, blank=False, null=False, on_delete=models.CASCADE)
-    offer_code = models.OneToOneField(OfferCode, blank=False, null=True, on_delete=models.CASCADE)
+    offer_code = models.ForeignKey(OfferCode, blank=False, null=True, on_delete=models.CASCADE)
     created_date = models.DateTimeField(auto_now_add=True)
     channel = models.CharField(max_length=20)
     history = HistoricalRecords()
     def __str__(self):
         return str(self.id)
     def save(self,*args,**kwargs):
-        self.offer_code.available=False
-        self.offer_code.save()
-        super(PurchaseOrder, self).save()
-
+        if self.offer_code.available :
+            self.offer_code.available=False
+            self.offer_code.save()
+            super(PurchaseOrder, self).save()
+        else:
+            raise ValidationError('The code was just taken')
