@@ -53,15 +53,17 @@ class SupplyOrder(models.Model):
     description = models.CharField(max_length=255)
     history = HistoricalRecords()
     def __str__(self):
-        return str(self.created_date)
+        return str(self.id)
 
 class OfferCode(models.Model):
-    offer = models.ForeignKey(Offer, blank=False, null=False)
     code = models.CharField(max_length=255)
+    offer = models.ForeignKey(Offer, blank=True, null=True)
     supply_order = models.ForeignKey(SupplyOrder, blank=False, null=False)
+    available = models.BooleanField(default=True)
+    #purchase_order = models.ForeignKey(PurchaseOrder, blank=True, null=True)
     history = HistoricalRecords()
     def __str__(self):
-        return "%s %s" % (self.offer, self.code)
+        return self.code
 
 class Catalog(models.Model):
     operator = models.ForeignKey(Operator, blank=True, null=True)
@@ -70,4 +72,17 @@ class Catalog(models.Model):
     history = HistoricalRecords()
     def __str__(self):
         return str(self.price)
-        #return "%s %s %s" % (self.offer.name, self.operator.name, self.price)
+
+class PurchaseOrder(models.Model):
+    user = models.ForeignKey(User, blank=False, null=False, on_delete=models.CASCADE)
+    offer_code = models.OneToOneField(OfferCode, blank=False, null=True, on_delete=models.CASCADE)
+    created_date = models.DateTimeField(auto_now_add=True)
+    channel = models.CharField(max_length=20)
+    history = HistoricalRecords()
+    def __str__(self):
+        return str(self.id)
+    def save(self,*args,**kwargs):
+        self.offer_code.available=False
+        self.offer_code.save()
+        super(PurchaseOrder, self).save()
+
