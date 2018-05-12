@@ -15,7 +15,16 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
+from django.conf.urls import url
+from django.contrib import admin
+from django.contrib.auth import views as auth_views
+from ipg_app import views as ipg_views
 
 urlpatterns = [
+    url(r'^$', ipg_views.home, name='home'),
     url(r'^admin/', admin.site.urls),
+    url(r'^login/$', auth_views.login, name='login'),
+    url(r'^logout/$', auth_views.login, name='logout'),
+    url(r'^signup/$', ipg_views.signup, name='signup'),
+    #url(r'^catalog/$',ipg_views.CatalogView.as_view(), name='catalog')
 ]
