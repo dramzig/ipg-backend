@@ -25,6 +25,7 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^login/$', auth_views.login, name='login'),
     url(r'^logout/$', auth_views.login, name='logout'),
-    url(r'^signup/$', ipg_views.signup, name='signup'),
+    url(r'^signup/$', ipg_views.Signup, name='signup'),
+    url(r'^catalog/$', ipg_views.CatalogListView.as_view(), name='catalog')
     #url(r'^catalog/$',ipg_views.CatalogView.as_view(), name='catalog')
 ]
