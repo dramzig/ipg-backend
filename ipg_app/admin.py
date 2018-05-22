@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.models import User
 from django import forms
 from .models import *
@@ -10,6 +11,15 @@ class ProfileAdmin(admin.ModelAdmin):
     class Meta:
         model = Profile
         fields = "__all__"
+
+class ProfileInline(admin.StackedInline):
+    model = Profile
+    can_delete = False
+    verbose_name_plural = 'profiles'
+
+class UserAdmin(BaseUserAdmin):
+    inlines = (ProfileInline, )
+
 class CountryAdmin(SimpleHistoryAdmin):
     list_display = ["name", "currency"]
     class Meta:
@@ -58,6 +68,9 @@ class PurchaseOrderAdmin(SimpleHistoryAdmin):
     class Meta:
         model = PurchaseOrder
 
+#User
+admin.site.unregister(User)
+admin.site.register(User, UserAdmin)
 # Register your models here.
 admin.site.register(Profile, ProfileAdmin)
 admin.site.register(Country, CountryAdmin)

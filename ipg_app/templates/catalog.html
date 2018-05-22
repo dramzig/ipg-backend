@@ -1,20 +1,23 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1>Nuestro Catalogo</h1>
+    <h1>Nuestro Catalogo Honduras</h1>
 
     {% if object_list %}
     <ul>
 
       {% for catalog in object_list %}
       <li>
-        <a href="{{ catalog.get_absolute_url }}">{{ catalog.offer }}</a> ({{catalog.price}})
+        <a href="{{ catalog.get_absolute_url }}">{{ catalog.offer }}</a>
+          <p>{{ catalog.offer.description}}</p>
+          {{catalog.operator.country.currency}} {{catalog.price}}
+
       </li>
       {% endfor %}
 
     </ul>
     {% else %}
-      <p>There are no books in the library.</p>
+      <p>No hay ofertas disponibles</p>
         {{ some_data }}
     {% endif %}
 {% endblock %}

@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Confirmacion de la compra {{user}}</h1>
+    <p>Se enviara un mensajes de confirmacion a su numero que requiere un PIN de seguridad</p>
+    <p>Su numero configurado es:</p> {{user.profile.phone_number}}
+    <h1>{{ catalog.offer.name }}</h1>
+    <h2>Precio: {{catalog.operator.country.currency}} {{catalog.price}}</h2>
+    <p>{{ catalog.offer.description }}</p>
+    <form action="" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="hidden" value="W">
+        <input type="submit" value="OK">
+    </form>
+<h1>Errores:</h1>
+{% if form.errors %}
+    {% for field in form %}
+        {% for error in field.errors %}
+            <div class="alert alert-danger">
+                <strong>{{ error|escape }}</strong>
+            </div>
+        {% endfor %}
+    {% endfor %}
+    {% for error in form.non_field_errors %}
+        <div class="alert alert-danger">
+            <strong>{{ error|escape }}</strong>
+        </div>
+    {% endfor %}
+{% endif %}
+
+
+{% endblock %}

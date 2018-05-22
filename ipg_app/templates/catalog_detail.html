@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>{{ catalog.offer.name }}</h1>
+    <h2>Precio: {{catalog.operator.country.currency}} {{catalog.price}} </h2>
+    <p>{{ catalog.offer.description }}</p>
+    <a href="/confirmation/">Comprar</a>
+    <button>Compartir</button>
+{% endblock %}

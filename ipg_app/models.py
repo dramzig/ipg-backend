@@ -5,6 +5,7 @@ from django.core.validators import RegexValidator
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from simple_history.models import HistoricalRecords
+from django.core.urlresolvers import reverse
 
 #from django.contrib.auth.models import UserAttributeSimilarityValidator
 
@@ -13,6 +14,7 @@ class Profile(models.Model):
     birth_date = models.DateField(null=True, blank=True)
     phone_regex = RegexValidator(regex=r'^\+?1?\d{9,15}$', message="Phone number must be entered in the format: '+999999999'. Up to 15 digits allowed.")
     phone_number = models.CharField(validators=[phone_regex], max_length=17, blank=True) # validators should be a list
+
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
@@ -73,19 +75,22 @@ class Catalog(models.Model):
     history = HistoricalRecords()
     def __str__(self):
         return str(self.price)
+    def get_absolute_url(self):
+        return reverse('catalog-detail', args=[str(self.id)])
 
 class PurchaseOrder(models.Model):
-    user = models.ForeignKey(User, blank=False, null=False, on_delete=models.CASCADE)
-    offer_code = models.ForeignKey(OfferCode, blank=False, null=True, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, blank=False, null=False, on_delete=models.PROTECT)
+    catalog = models.ForeignKey(Catalog, blank=False, null=True, on_delete=models.PROTECT)
+    offer_code = models.ForeignKey(OfferCode, blank=True, null=True, on_delete=models.SET_NULL)
     created_date = models.DateTimeField(auto_now_add=True)
     channel = models.CharField(max_length=20)
     history = HistoricalRecords()
     def __str__(self):
         return str(self.id)
-    def save(self,*args,**kwargs):
-        if self.offer_code.available :
-            self.offer_code.available=False
-            self.offer_code.save()
-            super(PurchaseOrder, self).save()
-        else:
-            raise ValidationError('The code was just taken')
+    #def save(self,*args,**kwargs):
+    #    if self.offer_code.available :
+    #        self.offer_code.available=False
+    #        self.offer_code.save()
+    #        super(PurchaseOrder, self).save()
+    #    else:
+    #        raise ValidationError('The code was just taken')

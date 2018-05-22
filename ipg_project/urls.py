@@ -26,6 +26,10 @@ urlpatterns = [
     url(r'^login/$', auth_views.login, name='login'),
     url(r'^logout/$', auth_views.login, name='logout'),
     url(r'^signup/$', ipg_views.Signup, name='signup'),
-    url(r'^catalog/$', ipg_views.CatalogListView.as_view(), name='catalog')
+    url(r'^catalog/$', ipg_views.CatalogListView.as_view(), name='catalog'),
+    url(r'^catalog/(?P<pk>\d+)$', ipg_views.OfferView.as_view(), name='catalog-detail'),
+    url(r'^confirmation/$', ipg_views.PurchaseOrderView.as_view(), name='purchase-order'),
+    url(r'^success/$', ipg_views.Success, name='success'),
+    url(r'^error/$', ipg_views.purchase_error,name='purchase_error'),
     #url(r'^catalog/$',ipg_views.CatalogView.as_view(), name='catalog')
 ]

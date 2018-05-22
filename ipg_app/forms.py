@@ -1,4 +1,5 @@
 from django import forms
+from .models import *
 from django.db import models
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
@@ -13,3 +14,9 @@ class SignUpForm(UserCreationForm):
     class Meta:
         model = User
         fields = ('username', 'birth_date', 'phone_number','password1', 'password2', )
+
+class PurchaseOrderForm(forms.Form):
+    channel = forms.CharField(max_length=20, required=True)
+    class Meta:
+        model = PurchaseOrder
+        fields = ('channel', )
