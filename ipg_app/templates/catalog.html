@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
     <h1>Nuestro Catalogo Honduras</h1>
@@ -9,6 +10,14 @@
       {% for catalog in object_list %}
       <li>
         <a href="{{ catalog.get_absolute_url }}">{{ catalog.offer }}</a>
+          <br>
+          <a href="{{ catalog.get_absolute_url }}">
+                <img src="{% if catalog.offer.image %}
+                        {{ catalog.offer.image.url }}
+                    {% else %}
+                        {% static 'img/default.jpg' %}
+                    {% endif %}" alt="..." style="height: 130px; width: auto">
+            </a>
           <p>{{ catalog.offer.description}}</p>
           {{catalog.operator.country.currency}} {{catalog.price}}
 

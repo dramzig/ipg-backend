@@ -17,6 +17,16 @@ class SignUpForm(UserCreationForm):
 
 class PurchaseOrderForm(forms.Form):
     channel = forms.CharField(max_length=20, required=True)
+    catalog = forms.CharField (max_length=20, required=True)
     class Meta:
         model = PurchaseOrder
-        fields = ('channel', )
+        fields = ('channel', 'catalog', )
+
+#CART
+PRODUCT_QUANTITY_CHOICES = [(i,str(i)) for i in range(1,5)]
+class CartAddProductForm(forms.Form):
+    quantity = forms.TypedChoiceField(choices=PRODUCT_QUANTITY_CHOICES, coerce=int)
+    update = forms.BooleanField(required=False, initial=False, widget=forms.HiddenInput)
+
+
+

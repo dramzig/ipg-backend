@@ -19,6 +19,9 @@ from django.conf.urls import url
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
 from ipg_app import views as ipg_views
+#Statics images
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     url(r'^$', ipg_views.home, name='home'),
@@ -28,8 +31,10 @@ urlpatterns = [
     url(r'^signup/$', ipg_views.Signup, name='signup'),
     url(r'^catalog/$', ipg_views.CatalogListView.as_view(), name='catalog'),
     url(r'^catalog/(?P<pk>\d+)$', ipg_views.OfferView.as_view(), name='catalog-detail'),
-    url(r'^confirmation/$', ipg_views.PurchaseOrderView.as_view(), name='purchase-order'),
+    url(r'^confirmation/(?P<catalog>\d+)$', ipg_views.PurchaseOrderView.as_view(), name='purchase-order'),
     url(r'^success/$', ipg_views.Success, name='success'),
     url(r'^error/$', ipg_views.purchase_error,name='purchase_error'),
-    #url(r'^catalog/$',ipg_views.CatalogView.as_view(), name='catalog')
-]
+    url(r'^cart/$', ipg_views.cart_detail, name='cart_detail'),
+    url(r'^cart/add/(?P<product_id>\d+)/$', ipg_views.cart_add, name='cart_add'),
+    url(r'^cart/remove/(?P<product_id>\d+)/$', ipg_views.cart_remove, name='cart_remove'),
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -1,7 +1,11 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1>Confirmacion de la compra {{user}}</h1>
+    <h1>Confirmacion de la compra</h1>
+    <h2>{{user}}- {{catalog}} - {{some_data}}</h2>
+
+
+
     <p>Se enviara un mensajes de confirmacion a su numero que requiere un PIN de seguridad</p>
     <p>Su numero configurado es:</p> {{user.profile.phone_number}}
     <h1>{{ catalog.offer.name }}</h1>
