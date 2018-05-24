@@ -27,7 +27,7 @@ urlpatterns = [
     url(r'^$', ipg_views.home, name='home'),
     url(r'^admin/', admin.site.urls),
     url(r'^login/$', auth_views.login, name='login'),
-    url(r'^logout/$', auth_views.login, name='logout'),
+    url(r'^logout/$', auth_views.logout, name='logout'),
     url(r'^signup/$', ipg_views.Signup, name='signup'),
     url(r'^catalog/$', ipg_views.CatalogListView.as_view(), name='catalog'),
     url(r'^catalog/(?P<pk>\d+)$', ipg_views.OfferView.as_view(), name='catalog-detail'),
@@ -37,4 +37,5 @@ urlpatterns = [
     url(r'^cart/$', ipg_views.cart_detail, name='cart_detail'),
     url(r'^cart/add/(?P<product_id>\d+)/$', ipg_views.cart_add, name='cart_add'),
     url(r'^cart/remove/(?P<product_id>\d+)/$', ipg_views.cart_remove, name='cart_remove'),
+    url(r'^cart/checkout/$', ipg_views.cart_checkout, name='cart_checkout'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

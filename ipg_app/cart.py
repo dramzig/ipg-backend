@@ -1,6 +1,8 @@
 from decimal import Decimal
 from django.conf import settings
-from .models import Catalog
+from .models import Catalog, OfferCode
+import logging
+logger = logging.getLogger('__name__')
 
 
 class Cart(object):
@@ -51,4 +53,8 @@ class Cart(object):
     def clear(self):
         del self.session[settings.CART_SESSION_ID]
         self.session.modified = True
-        #null
+
+    def checkout(self):
+        """Realiza el checkout"""
+        logger.warning("Your log message is here")
+

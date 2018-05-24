@@ -10,10 +10,17 @@ from django.core.urlresolvers import reverse
 #from django.contrib.auth.models import UserAttributeSimilarityValidator
 
 class Profile(models.Model):
-    user =models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     birth_date = models.DateField(null=True, blank=True)
     phone_regex = RegexValidator(regex=r'^\+?1?\d{9,15}$', message="Phone number must be entered in the format: '+999999999'. Up to 15 digits allowed.")
-    phone_number = models.CharField(validators=[phone_regex], max_length=17, blank=True) # validators should be a list
+    phone_number = models.CharField(validators=[phone_regex], max_length=17, null=False, unique=True )
+    def clean(self):
+        cleaned_data = super(Profile, self).clean()
+        return cleaned_data
+
+    def save(self, *args, **kwargs):
+        self.validate_unique()
+        super(Profile, self).save(*args, **kwargs)
 
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
@@ -75,23 +82,31 @@ class Catalog(models.Model):
     price = models.DecimalField(max_digits=10,decimal_places=2, default=0)
     history = HistoricalRecords()
     def __str__(self):
-        return str(self.price)
+        return self.offer.name
     def get_absolute_url(self):
         return reverse('catalog-detail', args=[str(self.id)])
 
 class PurchaseOrder(models.Model):
     user = models.ForeignKey(User, blank=False, null=False, on_delete=models.PROTECT)
-    catalog = models.ForeignKey(Catalog, blank=False, null=True, on_delete=models.PROTECT)
-    offer_code = models.ForeignKey(OfferCode, blank=True, null=True, on_delete=models.SET_NULL)
+    #catalog = models.ForeignKey(Catalog, blank=False, null=True, on_delete=models.PROTECT)
+    #offer_code = models.ForeignKey(OfferCode, blank=True, null=True, on_delete=models.SET_NULL)
     created_date = models.DateTimeField(auto_now_add=True)
     channel = models.CharField(max_length=20)
     history = HistoricalRecords()
     def __str__(self):
         return str(self.id)
-    #def save(self,*args,**kwargs):
-    #    if self.offer_code.available :
-    #        self.offer_code.available=False
-    #        self.offer_code.save()
-    #        super(PurchaseOrder, self).save()
-    #    else:
-    #        raise ValidationError('The code was just taken')
+class PurchaseOrderLine(models.Model):
+    offer_id = models.PositiveIntegerField(null=False)
+    offer_name = models.CharField(max_length=50, null=False)
+    product_id = models.PositiveIntegerField(null=False)
+    currency = models.CharField(max_length=3)
+    price = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    operator = models.CharField(max_length=20)
+    country = models.CharField(max_length=20)
+    code = models.CharField(max_length=255)
+    created_date = models.DateTimeField(auto_now_add=True)
+    purchase_order = models.ForeignKey(PurchaseOrder, blank=False, null=False)
+    history = HistoricalRecords()
+    def __str__(self):
+        return str(self.id)
+

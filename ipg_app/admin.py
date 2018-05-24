@@ -59,15 +59,11 @@ class SupplyOrderAdmin(SimpleHistoryAdmin):
         model = SupplyOrder
 
 class PurchaseOrderAdmin(SimpleHistoryAdmin):
-    list_display = ["id","user", "get_offer","offer_code","created_date", "channel"]
-    list_filter = ("offer_code__offer",)
-    def get_offer(self, po):
-        return po.offer_code.offer
-    get_offer.short_description = 'Offer'
-    get_offer.admin_order_field = 'offer_code__offer'
+    list_display = ["id", "user", "created_date", "channel"]
     class Meta:
         model = PurchaseOrder
-
+class PurchaseOrderLineAdmin(SimpleHistoryAdmin):
+    list_display = ["purchase_order","id", "offer_id", "offer_name","product_id","currency","price","operator", "country","code","created_date"]
 #User
 admin.site.unregister(User)
 admin.site.register(User, UserAdmin)
@@ -80,5 +76,6 @@ admin.site.register(Catalog, CatalogAdmin)
 
 admin.site.register(SupplyOrder, SupplyOrderAdmin)
 admin.site.register(PurchaseOrder, PurchaseOrderAdmin)
+admin.site.register(PurchaseOrderLine, PurchaseOrderLineAdmin)
 #admin.site.register(PurchaseOrder)
 admin.site.register(OfferCode, OfferCodeAdmin)

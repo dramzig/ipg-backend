@@ -14,7 +14,7 @@
     <form action="{% url "cart_add" catalog.id %}" method="post">
         {% csrf_token %}
         {{ cart_product_form }}
-        <input type="submit" value="add to cart" class="btn btn-primary">
+        <input type="submit" value="+ Carrito" class="btn btn-primary">
     </form>
     <!--a href="/confirmation/">Comprar</a>
     <a href="{% url 'purchase-order' catalog=1 %}">comprar</a>

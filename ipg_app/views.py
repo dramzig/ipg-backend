@@ -3,13 +3,17 @@ from django.http import HttpResponseRedirect
 from django import http
 from django.contrib.auth import login, authenticate
 from django.shortcuts import render, redirect, render_to_response, get_object_or_404
-from ipg_app.forms import SignUpForm
+from ipg_app.forms import *
 from .models import *
 from .forms import *
 from django.views import generic
 from django.views.decorators.http import require_POST
 from django.views.generic.edit import CreateView
 from .cart import Cart
+from django.db import transaction
+
+import logging
+logger = logging.getLogger('__name__')
 
 @login_required
 def home(request):
@@ -18,11 +22,20 @@ def home(request):
 def purchase_error(request):
     return render(request, 'error.html')
 
+
+@transaction.atomic
 def Signup(request):
     if request.method == 'POST':
         form =SignUpForm(request.POST)
         if form.is_valid():
-            form.save()
+            user = form.save()
+            user.refresh_from_db()
+            user.profile.birth_date = form.cleaned_data.get('birth_date')
+            user.profile.phone_number = form.cleaned_data.get('phone_number')
+            if Profile.objects.filter(phone_number=user.profile.phone_number).count() > 0:
+                raise ValidationError('This display name is already in use.')
+            user.save()
+            logger.warning("request.POST: " + str(request.POST))
             username = form.cleaned_data.get('username')
             raw_password = form.cleaned_data.get('password1')
             user = authenticate(username=username, password=raw_password)
@@ -85,6 +98,7 @@ class Success(generic.DetailView):
 
  #CART
 @require_POST
+@login_required
 def cart_add(request, product_id):
     cart = Cart(request)
     myProduct = get_object_or_404(Catalog, id=product_id)
@@ -93,13 +107,56 @@ def cart_add(request, product_id):
         cd = form.cleaned_data
         cart.add(catalog=myProduct, quantity=cd['quantity'], update_quantity=cd['update'])
     return redirect('cart_detail')
+@login_required
 def cart_remove(request, product_id):
     cart = Cart(request)
     product = get_object_or_404(Catalog, id=product_id)
     cart.remove(product)
     return redirect('cart_detail')
+
+
+@login_required
 def cart_detail(request):
     cart=Cart(request)
     for item in cart:
         item['update_quantity_form'] = CartAddProductForm(initial={'quantity': item['quantity'], 'update': True})
     return render(request, 'cart/detail.html', {'cart': cart})
+
+
+@login_required
+@transaction.atomic
+def cart_checkout(request):
+    cart = Cart(request)
+    logger.warning("Comenzando")
+    po = PurchaseOrder(user =  request.user, channel = 'WEB')
+    po.save()
+    logger.warning("PO ID: "+str(po.id))
+    for item in cart:
+        for quantityIterator in range (0,item['quantity']):
+            purchaseOrderLine = PurchaseOrderLine(
+                offer_id=item['product'].offer.id,
+                offer_name=item['product'].offer.name,
+                product_id=item['product'].id,
+                currency = item['product'].operator.country.currency,
+                price = item['product'].price,
+                operator = item['product'].operator.name,
+                country = item['product'].operator.country.name,
+                code = "11111111",
+                purchase_order = po
+            )
+            logger.warning("quantityIterator "+str(quantityIterator)+": PO:"+str(purchaseOrderLine))
+            purchaseOrderLine.save()
+    cart.clear()
+    return render(request, 'cart/checkout.html', {'cart': cart})
+    #return render(request, 'cart/checkout.html', {'cart': cart})
+
+
+#offer_id = models.PositiveIntegerField(null=False)
+#offer_name = models.CharField(max_length=50, null=False)
+#product_id = models.PositiveIntegerField(null=False)
+#price = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+#operator = models.CharField(max_length=20)
+#country = models.CharField(max_length=20)
+#code = models.CharField(max_length=255)
+#created_date = models.DateTimeField(auto_now_add=True)
+#purchase_order = models.ForeignKey(PurchaseOrder, blank=False, null=False)
