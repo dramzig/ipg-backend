@@ -3,7 +3,6 @@ from django.http import HttpResponseRedirect
 from django import http
 from django.contrib.auth import login, authenticate
 from django.shortcuts import render, redirect, render_to_response, get_object_or_404
-from ipg_app.forms import *
 from .models import *
 from .forms import *
 from django.views import generic
@@ -11,9 +10,16 @@ from django.views.decorators.http import require_POST
 from django.views.generic.edit import CreateView
 from .cart import Cart
 from django.db import transaction
+from django.urls import reverse_lazy
 
 import logging
 logger = logging.getLogger('__name__')
+
+
+def load_operators(request):
+    country_id = request.GET.get('country')
+    operators = Operator.objects.filter(country_id=country_id).order_by('name')
+    return render(request, 'registration/operator_dropdown_list_options.html', {'operators': operators})
 
 @login_required
 def home(request):
@@ -32,6 +38,8 @@ def Signup(request):
             user.refresh_from_db()
             user.profile.birth_date = form.cleaned_data.get('birth_date')
             user.profile.phone_number = form.cleaned_data.get('phone_number')
+            user.profile.country = form.cleaned_data.get('country')
+            user.profile.operator = form.cleaned_data.get('operator')
             if Profile.objects.filter(phone_number=user.profile.phone_number).count() > 0:
                 raise ValidationError('This display name is already in use.')
             user.save()
@@ -52,10 +60,11 @@ class CatalogListView(generic.ListView):
     def get_context_data(self, **kwargs):
         #context_object_name = 'catalog_list'
         context = super().get_context_data(**kwargs)
+        context['banners'] = Banner.objects.filter(operator=self.request.user.profile.operator)
         context['some_data'] = 'This is just some data'
         return context
     def get_queryset(self):
-        return Catalog.objects.filter(operator__name__icontains='Tigo')
+        return Catalog.objects.filter(operator=self.request.user.profile.operator)
 
 class OfferView(generic.DetailView):
     model= Catalog

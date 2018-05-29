@@ -3,10 +3,34 @@
 {% block title %}Login{% endblock %}
 
 {% block content %}
-  <h2>Login</h2>
-  <form method="post">
+
+<form class="uk-form-stacked" method="post">
     {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Login</button>
-  </form>
+    <div class="uk-flex-center" uk-grid>
+        <div class="uk-width-1-4">
+            <h3 class="uk-heading-divider">Login</h3>
+            <div class="uk-margin">
+                <label class="uk-form-label">Usuario</label>
+                <input id="username" name="username" class="uk-input" type="text" placeholder="usuario">
+            </div>
+            <div class="uk-margin">
+                <label class="uk-form-label">Contrasena</label>
+                <input id="password" name="password" class="uk-input" type="password" placeholder="password">
+            </div>
+            <button type="submit" class="uk-button uk-button-primary uk-width-1-1 uk-margin-small-bottom">Login</button>
+            <a href="{% url 'signup' %}" class="uk-button uk-button-primary uk-width-1-1 uk-margin-small-bottom">Registrarse</a>
+            {% if form.errors %}
+            <p class=" label label-danger">
+                Su usuario y contrasena no concuerdan.
+                Por favor intente de nuevo.
+            </p>
+            {% endif %}
+            <!--{{ form.as_p }}-->
+
+        </div>
+
+    </div>
+
+
+</form>
 {% endblock %}

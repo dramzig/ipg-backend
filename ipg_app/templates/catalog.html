@@ -2,48 +2,75 @@
 {% load static %}
 
 {% block content %}
-    <h1>Nuestro Catalogo Honduras</h1>
 
-    {% if object_list %}
+<div class="uk-position-relative uk-visible-toggle uk-light"
+     uk-slider="center: true;  autoplay: true; autoplay-interval: 3000">
 
-        <div class="uk-child-width-1-4@m" uk-grid>
-        {% for catalog in object_list %}
 
-            <div>
-                <div class="uk-card uk-card-default">
-                    <div class="uk-card-media-top">
-                        <img src="{{ catalog.offer.image.url }}" alt="">
-                    </div>
-                    <div class="uk-card-body">
-                        <h3 class="uk-card-title">Media Top</h3>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.</p>
-                    </div>
-                </div>
-            </div>
+    <ul class="uk-slider-items uk-grid uk-grid-match" uk-height-viewport="offset-top: true; offset-bottom: 30">
 
-        {% endfor %}
-        </div>
-        <ul>
-        {% for catalog in object_list %}
-        <li>
-        <a href="{{ catalog.get_absolute_url }}">{{ catalog.offer }}</a>
-          <br>
-          <a href="{{ catalog.get_absolute_url }}">
-                <img src="{% if catalog.offer.image %}
-                        {{ catalog.offer.image.url }}
-                    {% else %}
-                        {% static 'img/default.jpg' %}
-                    {% endif %}" alt="..." style="height: 130px; width: auto">
+        {% for banner in banners %}
+
+        <li class="uk-width-3-4">
+            <a class="uk-cover-container" href="{{ banner.target }}">>
+                <img src="{{ banner.image.url }}" alt="{{ banner.image.name }}" uk-cover>
+                <div class="uk-position-center uk-panel"><h1>1</h1></div>
             </a>
-          <p>{{ catalog.offer.description}}</p>
-          {{catalog.operator.country.currency}} {{catalog.price}}
-
-      </li>
-      {% endfor %}
-
+        </li>
+        {% endfor %}
     </ul>
-    {% else %}
-      <p>No hay ofertas disponibles</p>
-        {{ some_data }}
-    {% endif %}
+    <a class="uk-position-center-left uk-position-small uk-hidden-hover" href="#" uk-slidenav-previous
+       uk-slider-item="previous"></a>
+    <a class="uk-position-center-right uk-position-small uk-hidden-hover" href="#" uk-slidenav-next
+       uk-slider-item="next"></a>
+
+
+    <ul class="uk-slider-nav uk-dotnav uk-flex-center uk-margin"></ul>
+</div>
+
+{% if object_list %}
+
+<div class="uk-child-width-1-5@m uk-padding-small" uk-grid>
+    {% for catalog in object_list %}
+
+    <div>
+        <div class="uk-card uk-card-default">
+            <div class="uk-card-media-top">
+                <a href="{{ catalog.get_absolute_url }}">
+                    <img src="{{ catalog.offer.image.url }}" alt="{{ catalog.offer.name }}"
+                         style="height: 130px; width: auto">
+                </a>
+            </div>
+            <div class="uk-card-body uk-padding-small">
+                <p>{{ catalog.offer.name }}</p>
+                <p>{{catalog.operator.country.currency}}{{catalog.price}}</p>
+            </div>
+        </div>
+    </div>
+
+    {% endfor %}
+</div>
+<ul>
+    {% for catalog in object_list %}
+    <!--li>
+    <a href="{{ catalog.get_absolute_url }}">{{ catalog.offer }}</a>
+      <br>
+      <a href="{{ catalog.get_absolute_url }}">
+            <img src="{% if catalog.offer.image %}
+                    {{ catalog.offer.image.url }}
+                {% else %}
+                    {% static 'img/default.jpg' %}
+                {% endif %}" alt="..." style="height: 130px; width: auto">
+        </a>
+      <p>{{ catalog.offer.description}}</p>
+      {{catalog.operator.country.currency}} {{catalog.price}}
+
+  </li-->
+    {% endfor %}
+
+</ul>
+{% else %}
+<p>No hay ofertas disponibles</p>
+{{ some_data }}
+{% endif %}
 {% endblock %}

@@ -1,22 +1,62 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-    <h1>{{ catalog.offer.name }}</h1>
-    <a href="/catalog/1">
-        <img src="{% if catalog.offer.image %}
+<div class="uk-child-width-expand@s uk-padding-small" uk-grid>
+
+    <div class="uk-width-1-4@m">
+        <div class="uk-card-media-left uk-cover-container">
+            <img src="{{ catalog.offer.image.url }}" alt="{{ catalog.offer.name }}" uk-cover>
+            <canvas width="600" height="400"></canvas>
+        </div>
+
+    </div>
+    <div class="uk-width-expand@m">
+        <div>
+
+            <h3 class="uk-card-title">{{ catalog.offer.name }}</h3>
+            <p>{{ catalog.offer.description }}</p>
+
+
+        </div>
+    </div>
+    <div class="uk-width-1-4@m">
+        <div class="uk-card uk-card-default ">
+            <div class="uk-card-header">
+                <div class="uk-width-expand">
+                    <h3 class="uk-card-title uk-margin-remove-bottom">{{catalog.operator.country.currency}}{{catalog.price}}</h3>
+                </div>
+            </div>
+            <form action="{% url 'cart_add' catalog.id %}" method="post">
+                <div class="uk-card-body">
+                    {% csrf_token %}
+                    {{ cart_product_form }}
+                </div>
+                <div class="uk-card-footer">
+                    <input type="submit" value="+ Carrito" class="uk-button uk-button-text">
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>
+
+
+<h1>{{ catalog.offer.name }}</h1>
+<a href="/catalog/1">
+    <img src="{% if catalog.offer.image %}
                 {{ catalog.offer.image.url }}
             {% else %}
                 {% static 'img/default.jpg' %}
             {% endif %}" alt="..." style="height: 130px; width: auto">
-    </a>
-    <h2>Precio: {{catalog.operator.country.currency}} {{catalog.price}} </h2>
-    <p>{{ catalog.offer.description }}</p>
-    <form action="{% url "cart_add" catalog.id %}" method="post">
-        {% csrf_token %}
-        {{ cart_product_form }}
-        <input type="submit" value="+ Carrito" class="btn btn-primary">
-    </form>
-    <!--a href="/confirmation/">Comprar</a>
-    <a href="{% url 'purchase-order' catalog=1 %}">comprar</a>
-    <button>Compartir</button-->
+</a>
+<h2>Precio: {{catalog.operator.country.currency}} {{catalog.price}} </h2>
+<p>{{ catalog.offer.description }}</p>
+<form action="{% url 'cart_add' catalog.id %}" method="post">
+    {% csrf_token %}
+    {{ cart_product_form }}
+    <input type="submit" value="+ Carrito" class="btn btn-primary">
+</form>
+<!--a href="/confirmation/">Comprar</a>
+<a href="{% url 'purchase-order' catalog=1 %}">comprar</a>
+<button>Compartir</button-->
 {% endblock %}
