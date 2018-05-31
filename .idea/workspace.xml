@@ -2,18 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="bc28db7d-8417-49fb-963d-52357ffdd45c" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ipg_app/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/ipg_app/admin.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ipg_app/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/ipg_app/forms.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ipg_app/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/ipg_app/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ipg_app/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/ipg_app/templates/base.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ipg_app/templates/catalog.html" beforeDir="false" afterPath="$PROJECT_DIR$/ipg_app/templates/catalog.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ipg_app/templates/catalog_detail.html" beforeDir="false" afterPath="$PROJECT_DIR$/ipg_app/templates/catalog_detail.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ipg_app/templates/registration/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/ipg_app/templates/registration/login.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ipg_app/templates/registration/signup.html" beforeDir="false" afterPath="$PROJECT_DIR$/ipg_app/templates/registration/signup.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ipg_app/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/ipg_app/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ubuntu-xenial-16.04-cloudimg-console.log" beforeDir="false" afterPath="$PROJECT_DIR$/ubuntu-xenial-16.04-cloudimg-console.log" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -27,8 +17,8 @@
       <file leaf-file-name="models.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/ipg_app/models.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="806">
-              <caret line="86" column="41" selection-start-line="86" selection-start-column="40" selection-end-line="86" selection-end-column="41" />
+            <state relative-caret-position="754">
+              <caret line="79" column="27" lean-forward="true" selection-start-line="79" selection-start-column="27" selection-end-line="79" selection-end-column="27" />
               <folding>
                 <element signature="e#0#28#0" expanded="true" />
               </folding>
@@ -63,8 +53,8 @@
       <file leaf-file-name="base.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/ipg_app/templates/base.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="369">
-              <caret line="48" column="59" lean-forward="true" selection-start-line="48" selection-start-column="59" selection-end-line="48" selection-end-column="59" />
+            <state relative-caret-position="148">
+              <caret line="28" column="43" lean-forward="true" selection-start-line="28" selection-start-column="8" selection-end-line="28" selection-end-column="43" />
               <folding>
                 <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#main#0;n#body#0;n#html#0;n#!!top" expanded="true" />
               </folding>
@@ -100,8 +90,8 @@
       <file leaf-file-name="catalog.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/ipg_app/templates/catalog.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="455">
-              <caret line="36" column="25" selection-start-line="36" selection-start-column="25" selection-end-line="36" selection-end-column="25" />
+            <state relative-caret-position="135">
+              <caret line="79" column="79" selection-start-line="79" selection-start-column="79" selection-end-line="79" selection-end-column="79" />
               <folding>
                 <element signature="n#style#0;n#img#0;n#a#0;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
               </folding>
@@ -183,9 +173,10 @@
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="1367" />
+    <option name="x" value="1812" />
+    <option name="y" value="108" />
     <option name="width" value="1256" />
-    <option name="height" value="1050" />
+    <option name="height" value="738" />
   </component>
   <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="1" id="Add" />
@@ -272,7 +263,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="1367" y="0" width="1256" height="1050" extended-state="0" />
+    <frame x="1812" y="108" width="1256" height="738" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.17487685" />
@@ -626,26 +617,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/ipg_app/templates/base.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="369">
-          <caret line="48" column="59" lean-forward="true" selection-start-line="48" selection-start-column="59" selection-end-line="48" selection-end-column="59" />
-          <folding>
-            <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#main#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/ipg_app/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="806">
-          <caret line="86" column="41" selection-start-line="86" selection-start-column="40" selection-end-line="86" selection-end-column="41" />
-          <folding>
-            <element signature="e#0#28#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/ipg_app/templates/catalog_detail.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="39">
@@ -656,10 +627,30 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/ipg_app/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="754">
+          <caret line="79" column="27" lean-forward="true" selection-start-line="79" selection-start-column="27" selection-end-line="79" selection-end-column="27" />
+          <folding>
+            <element signature="e#0#28#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ipg_app/templates/base.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="148">
+          <caret line="28" column="43" lean-forward="true" selection-start-line="28" selection-start-column="8" selection-end-line="28" selection-end-column="43" />
+          <folding>
+            <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#main#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/ipg_app/templates/catalog.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="455">
-          <caret line="36" column="25" selection-start-line="36" selection-start-column="25" selection-end-line="36" selection-end-column="25" />
+        <state relative-caret-position="135">
+          <caret line="79" column="79" selection-start-line="79" selection-start-column="79" selection-end-line="79" selection-end-column="79" />
           <folding>
             <element signature="n#style#0;n#img#0;n#a#0;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
           </folding>
